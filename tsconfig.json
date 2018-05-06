@@ -1,0 +1,22 @@
+{
+	"compilerOptions": {
+		"declaration": true,
+		"outDir": "./dist/",
+		"sourceMap": true,
+		"emitDecoratorMetadata": true,
+		"experimentalDecorators": true,
+		"noImplicitAny": false,
+		"removeComments": false,
+		"module": "commonjs",
+		"target": "es6",
+		"allowJs": false,
+		"baseUrl": "./src",
+		"skipLibCheck": true,
+		"paths": {}
+	},
+	"include": [
+		"node_modules/@types",
+		"./app/**/*.ts",
+		"./app/declarations/*.*"
+	]
+}

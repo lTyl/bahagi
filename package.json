@@ -1,0 +1,37 @@
+{
+  "name": "bahagi",
+  "version": "0.1.0",
+  "description": "A type-based Entity Component System. Implemented in TypeScript",
+  "main": "./dist/bahagi.js",
+  "types": "./dist/index.d.ts",
+  "scripts": {
+    "build": "node node_modules/typescript/bin/tsc --p tsconfig.json",
+    "webpack": "webpack-dev-server --inline --hot --config webpack.config.js --content-base dist/",
+    "webpack-prod": "webpack --env.prod=true --config webpack.config.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lTyl/bahagi.git"
+  },
+  "keywords": [
+    "entity",
+    "component",
+    "system",
+    "ecs",
+    "entity-component-system"
+  ],
+  "author": "Tyler Deren",
+  "license": "MIT",
+  "homepage": "https://github.com/lTyl/bahagi",
+  "devDependencies": {
+    "@types/node": "^8.0.53",
+    "awesome-typescript-loader": "^3.4.0",
+    "typescript": "^2.6.1",
+    "webpack": "^3.8.1",
+    "webpack-dev-server": "^2.9.4"
+  },
+  "dependencies": {
+    "eventemitter3": "^3.1.0",
+    "fast.js": "^0.1.1"
+  }
+}
