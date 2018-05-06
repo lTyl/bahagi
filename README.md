@@ -11,6 +11,12 @@ Bahagi is Filipino for "Component".
 npm install bahagi --save
 ```
 
+## Running Tests
+Tests require Chai, Mocha and ts-node.
+```javascript
+npm test
+```
+
 ## Concept
 ### Entity
 The simplest form of an entity is an object with a single key, an identifier to identify the entity. Ultimately, it is an Object that holds components.
