@@ -45,4 +45,9 @@ export class Utils {
 			Utils.fastSplice(list, idxMatch, 1);
 		}
 	}
+	public static flatten(arr) {
+		return arr.reduce((flat, toFlatten) => {
+			return flat.concat(Array.isArray(toFlatten) ? Utils.flatten(toFlatten) : toFlatten);
+		}, []);
+	}
 }

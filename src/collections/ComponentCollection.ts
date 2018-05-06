@@ -99,6 +99,10 @@ export class ComponentCollection extends EventEmitter {
 		return this._componentsByType.get(Utils.getConstructorType(component));
 	}
 
+	public getCount(){
+		return this._count
+	}
+
 	public destroy(): void {
 		fast.forEach(this._allComponents, (component: IComponent<any>) => {
 			this.remove(component);

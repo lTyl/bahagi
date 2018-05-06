@@ -19,7 +19,7 @@ export class EntityCollection extends EventEmitter {
 				if (tagList){
 					tagList.push(entity);
 				} else {
-					this._entitiesByTag.set(Utils.getComponentType(entity), [entity])
+					this._entitiesByTag.set(tag, [entity])
 				}
 			}
 
@@ -60,7 +60,18 @@ export class EntityCollection extends EventEmitter {
 	}
 
 	public getByComponent<T>(component: any): IEntity[] {
-		return this.entities.filter(entity => entity.components.contains(component));
+		return fast.filter(this.entities, (entity => entity.components.contains(component)));
+	}
+
+	public getAllComponentsWithType<T>(component: any): IComponent<any>[] {
+		let componentMap = fast.map(this.entities, (entity) => {
+			return entity.components.contains(component);
+		});
+		return Utils.flatten(componentMap)
+	}
+
+	public getCount(){
+		return this._count;
 	}
 
 	public destroy(): void {
