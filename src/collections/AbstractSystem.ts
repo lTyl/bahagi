@@ -43,7 +43,7 @@ export abstract class AbstractSystem extends EventEmitter {
 	/**
 	 * STUBBED: Call this to clean up event listeners.
 	 */
-	public destroy(){
+	public destroy(): void{
 		this._collection.off(EntityCollectionEvents.ENTITY_ADDED, this.onEntityAdded);
 		this._collection.off(EntityCollectionEvents.ENTITY_REMOVED, this.onEntityRemoved);
 	};

@@ -11,4 +11,5 @@ export declare class Utils {
     static getComponentType(component: IComponent<any> | IEntity): string;
     static getConstructorType(ctor: any): string;
     static cleanCache(list: IComponent<any>[] | IEntity[], component: IComponent<any> | IEntity): void;
+    static flatten(arr: any): any;
 }

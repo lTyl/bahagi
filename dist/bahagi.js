@@ -87,6 +87,21 @@ module.exports = function bindInternal3 (func, thisContext) {
 
 "use strict";
 
+function __export(m) {
+    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
+}
+Object.defineProperty(exports, "__esModule", { value: true });
+__export(__webpack_require__(22));
+__export(__webpack_require__(23));
+__export(__webpack_require__(24));
+
+
+/***/ }),
+/* 2 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
 
 /**
  * Internal helper to bind a function known to have 4 arguments
@@ -100,7 +115,7 @@ module.exports = function bindInternal4 (func, thisContext) {
 
 
 /***/ }),
-/* 2 */
+/* 3 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -133,22 +148,6 @@ module.exports = function applyWithContext (subject, thisContext, args) {
       return subject.apply(thisContext, args);
   }
 };
-
-
-/***/ }),
-/* 3 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-function __export(m) {
-    for (var p in m) if (!exports.hasOwnProperty(p)) exports[p] = m[p];
-}
-Object.defineProperty(exports, "__esModule", { value: true });
-__export(__webpack_require__(22));
-__export(__webpack_require__(23));
-__export(__webpack_require__(24));
-__export(__webpack_require__(25));
 
 
 /***/ }),
@@ -186,10 +185,10 @@ function Fast (value) {
 
 module.exports = exports = Fast;
 
-Fast.array = __webpack_require__(26);
-Fast['function'] = Fast.fn = __webpack_require__(34);
-Fast.object = __webpack_require__(40);
-Fast.string = __webpack_require__(44);
+Fast.array = __webpack_require__(25);
+Fast['function'] = Fast.fn = __webpack_require__(33);
+Fast.object = __webpack_require__(39);
+Fast.string = __webpack_require__(43);
 
 
 Fast.apply = Fast['function'].apply;
@@ -204,12 +203,12 @@ Fast.keys = Fast.object.keys;
 Fast.values = Fast.object.values;
 
 
-Fast.clone = __webpack_require__(46);
-Fast.map = __webpack_require__(47);
-Fast.filter = __webpack_require__(48);
-Fast.forEach = __webpack_require__(49);
-Fast.reduce = __webpack_require__(50);
-Fast.reduceRight = __webpack_require__(51);
+Fast.clone = __webpack_require__(45);
+Fast.map = __webpack_require__(46);
+Fast.filter = __webpack_require__(47);
+Fast.forEach = __webpack_require__(48);
+Fast.reduce = __webpack_require__(49);
+Fast.reduceRight = __webpack_require__(50);
 
 
 Fast.cloneArray = Fast.array.clone; // @deprecated use fast.array.clone()
@@ -401,464 +400,6 @@ Object.defineProperty(Fast.prototype, 'length', {
 
 /***/ }),
 /* 5 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * # Clone Array
- *
- * Clone an array or array like object (e.g. `arguments`).
- * This is the equivalent of calling `Array.prototype.slice.call(arguments)`, but
- * significantly faster.
- *
- * @param  {Array} input The array or array-like object to clone.
- * @return {Array}       The cloned array.
- */
-module.exports = function fastCloneArray (input) {
-  var length = input.length,
-      sliced = new Array(length),
-      i;
-  for (i = 0; i < length; i++) {
-    sliced[i] = input[i];
-  }
-  return sliced;
-};
-
-
-/***/ }),
-/* 6 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var bindInternal3 = __webpack_require__(0);
-
-/**
- * # Filter
- *
- * A fast `.filter()` implementation.
- *
- * @param  {Array}    subject     The array (or array-like) to filter.
- * @param  {Function} fn          The filter function.
- * @param  {Object}   thisContext The context for the filter.
- * @return {Array}                The array containing the results.
- */
-module.exports = function fastFilter (subject, fn, thisContext) {
-  var length = subject.length,
-      result = [],
-      iterator = thisContext !== undefined ? bindInternal3(fn, thisContext) : fn,
-      i;
-  for (i = 0; i < length; i++) {
-    if (iterator(subject[i], i, subject)) {
-      result.push(subject[i]);
-    }
-  }
-  return result;
-};
-
-
-/***/ }),
-/* 7 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var bindInternal3 = __webpack_require__(0);
-
-/**
- * # For Each
- *
- * A fast `.forEach()` implementation.
- *
- * @param  {Array}    subject     The array (or array-like) to iterate over.
- * @param  {Function} fn          The visitor function.
- * @param  {Object}   thisContext The context for the visitor.
- */
-module.exports = function fastForEach (subject, fn, thisContext) {
-  var length = subject.length,
-      iterator = thisContext !== undefined ? bindInternal3(fn, thisContext) : fn,
-      i;
-  for (i = 0; i < length; i++) {
-    iterator(subject[i], i, subject);
-  }
-};
-
-
-/***/ }),
-/* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var bindInternal3 = __webpack_require__(0);
-
-/**
- * # Map
- *
- * A fast `.map()` implementation.
- *
- * @param  {Array}    subject     The array (or array-like) to map over.
- * @param  {Function} fn          The mapper function.
- * @param  {Object}   thisContext The context for the mapper.
- * @return {Array}                The array containing the results.
- */
-module.exports = function fastMap (subject, fn, thisContext) {
-  var length = subject.length,
-      result = new Array(length),
-      iterator = thisContext !== undefined ? bindInternal3(fn, thisContext) : fn,
-      i;
-  for (i = 0; i < length; i++) {
-    result[i] = iterator(subject[i], i, subject);
-  }
-  return result;
-};
-
-
-/***/ }),
-/* 9 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var bindInternal4 = __webpack_require__(1);
-
-/**
- * # Reduce
- *
- * A fast `.reduce()` implementation.
- *
- * @param  {Array}    subject      The array (or array-like) to reduce.
- * @param  {Function} fn           The reducer function.
- * @param  {mixed}    initialValue The initial value for the reducer, defaults to subject[0].
- * @param  {Object}   thisContext  The context for the reducer.
- * @return {mixed}                 The final result.
- */
-module.exports = function fastReduce (subject, fn, initialValue, thisContext) {
-  var length = subject.length,
-      iterator = thisContext !== undefined ? bindInternal4(fn, thisContext) : fn,
-      i, result;
-
-  if (initialValue === undefined) {
-    i = 1;
-    result = subject[0];
-  }
-  else {
-    i = 0;
-    result = initialValue;
-  }
-
-  for (; i < length; i++) {
-    result = iterator(result, subject[i], i, subject);
-  }
-
-  return result;
-};
-
-
-/***/ }),
-/* 10 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var bindInternal4 = __webpack_require__(1);
-
-/**
- * # Reduce Right
- *
- * A fast `.reduceRight()` implementation.
- *
- * @param  {Array}    subject      The array (or array-like) to reduce.
- * @param  {Function} fn           The reducer function.
- * @param  {mixed}    initialValue The initial value for the reducer, defaults to subject[0].
- * @param  {Object}   thisContext  The context for the reducer.
- * @return {mixed}                 The final result.
- */
-module.exports = function fastReduce (subject, fn, initialValue, thisContext) {
-  var length = subject.length,
-      iterator = thisContext !== undefined ? bindInternal4(fn, thisContext) : fn,
-      i, result;
-
-  if (initialValue === undefined) {
-    i = length - 2;
-    result = subject[length - 1];
-  }
-  else {
-    i = length - 1;
-    result = initialValue;
-  }
-
-  for (; i >= 0; i--) {
-    result = iterator(result, subject[i], i, subject);
-  }
-
-  return result;
-};
-
-
-/***/ }),
-/* 11 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Internal helper for applying a function without a context.
- */
-module.exports = function applyNoContext (subject, args) {
-  switch (args.length) {
-    case 0:
-      return subject();
-    case 1:
-      return subject(args[0]);
-    case 2:
-      return subject(args[0], args[1]);
-    case 3:
-      return subject(args[0], args[1], args[2]);
-    case 4:
-      return subject(args[0], args[1], args[2], args[3]);
-    case 5:
-      return subject(args[0], args[1], args[2], args[3], args[4]);
-    case 6:
-      return subject(args[0], args[1], args[2], args[3], args[4], args[5]);
-    case 7:
-      return subject(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
-    case 8:
-      return subject(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
-    default:
-      return subject.apply(undefined, args);
-  }
-};
-
-
-/***/ }),
-/* 12 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * # Clone Object
- *
- * Shallow clone a simple object.
- *
- * > Note: Prototypes and non-enumerable properties will not be copied!
- *
- * @param  {Object} input The object to clone.
- * @return {Object}       The cloned object.
- */
-module.exports = function fastCloneObject (input) {
-  var keys = Object.keys(input),
-      total = keys.length,
-      cloned = {},
-      i, key;
-
-  for (i = 0; i < total; i++) {
-    key = keys[i];
-    cloned[key] = input[key];
-  }
-
-  return cloned;
-};
-
-
-/***/ }),
-/* 13 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var bindInternal3 = __webpack_require__(0);
-
-/**
- * # Filter
- *
- * A fast object `.filter()` implementation.
- *
- * @param  {Object}   subject     The object to filter.
- * @param  {Function} fn          The filter function.
- * @param  {Object}   thisContext The context for the filter.
- * @return {Object}               The new object containing the filtered results.
- */
-module.exports = function fastFilterObject (subject, fn, thisContext) {
-  var keys = Object.keys(subject),
-      length = keys.length,
-      result = {},
-      iterator = thisContext !== undefined ? bindInternal3(fn, thisContext) : fn,
-      i, key;
-  for (i = 0; i < length; i++) {
-    key = keys[i];
-    if (iterator(subject[key], key, subject)) {
-      result[key] = subject[key];
-    }
-  }
-  return result;
-};
-
-
-/***/ }),
-/* 14 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var bindInternal3 = __webpack_require__(0);
-
-/**
- * # For Each
- *
- * A fast object `.forEach()` implementation.
- *
- * @param  {Object}   subject     The object to iterate over.
- * @param  {Function} fn          The visitor function.
- * @param  {Object}   thisContext The context for the visitor.
- */
-module.exports = function fastForEachObject (subject, fn, thisContext) {
-  var keys = Object.keys(subject),
-      length = keys.length,
-      iterator = thisContext !== undefined ? bindInternal3(fn, thisContext) : fn,
-      key, i;
-  for (i = 0; i < length; i++) {
-    key = keys[i];
-    iterator(subject[key], key, subject);
-  }
-};
-
-
-/***/ }),
-/* 15 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var bindInternal3 = __webpack_require__(0);
-
-/**
- * # Map
- *
- * A fast object `.map()` implementation.
- *
- * @param  {Object}   subject     The object to map over.
- * @param  {Function} fn          The mapper function.
- * @param  {Object}   thisContext The context for the mapper.
- * @return {Object}               The new object containing the results.
- */
-module.exports = function fastMapObject (subject, fn, thisContext) {
-  var keys = Object.keys(subject),
-      length = keys.length,
-      result = {},
-      iterator = thisContext !== undefined ? bindInternal3(fn, thisContext) : fn,
-      i, key;
-  for (i = 0; i < length; i++) {
-    key = keys[i];
-    result[key] = iterator(subject[key], key, subject);
-  }
-  return result;
-};
-
-
-/***/ }),
-/* 16 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var bindInternal4 = __webpack_require__(1);
-
-/**
- * # Reduce
- *
- * A fast object `.reduce()` implementation.
- *
- * @param  {Object}   subject      The object to reduce over.
- * @param  {Function} fn           The reducer function.
- * @param  {mixed}    initialValue The initial value for the reducer, defaults to subject[0].
- * @param  {Object}   thisContext  The context for the reducer.
- * @return {mixed}                 The final result.
- */
-module.exports = function fastReduceObject (subject, fn, initialValue, thisContext) {
-  var keys = Object.keys(subject),
-      length = keys.length,
-      iterator = thisContext !== undefined ? bindInternal4(fn, thisContext) : fn,
-      i, key, result;
-
-  if (initialValue === undefined) {
-    i = 1;
-    result = subject[keys[0]];
-  }
-  else {
-    i = 0;
-    result = initialValue;
-  }
-
-  for (; i < length; i++) {
-    key = keys[i];
-    result = iterator(result, subject[key], key, subject);
-  }
-
-  return result;
-};
-
-
-/***/ }),
-/* 17 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var bindInternal4 = __webpack_require__(1);
-
-/**
- * # Reduce
- *
- * A fast object `.reduce()` implementation.
- *
- * @param  {Object}   subject      The object to reduce over.
- * @param  {Function} fn           The reducer function.
- * @param  {mixed}    initialValue The initial value for the reducer, defaults to subject[0].
- * @param  {Object}   thisContext  The context for the reducer.
- * @return {mixed}                 The final result.
- */
-module.exports = function fastReduceRightObject (subject, fn, initialValue, thisContext) {
-  var keys = Object.keys(subject),
-      length = keys.length,
-      iterator = thisContext !== undefined ? bindInternal4(fn, thisContext) : fn,
-      i, key, result;
-
-  if (initialValue === undefined) {
-    i = length - 2;
-    result = subject[keys[length - 1]];
-  }
-  else {
-    i = length - 1;
-    result = initialValue;
-  }
-
-  for (; i >= 0; i--) {
-    key = keys[i];
-    result = iterator(result, subject[key], key, subject);
-  }
-
-  return result;
-};
-
-
-/***/ }),
-/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1201,6 +742,464 @@ if (true) {
 
 
 /***/ }),
+/* 6 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * # Clone Array
+ *
+ * Clone an array or array like object (e.g. `arguments`).
+ * This is the equivalent of calling `Array.prototype.slice.call(arguments)`, but
+ * significantly faster.
+ *
+ * @param  {Array} input The array or array-like object to clone.
+ * @return {Array}       The cloned array.
+ */
+module.exports = function fastCloneArray (input) {
+  var length = input.length,
+      sliced = new Array(length),
+      i;
+  for (i = 0; i < length; i++) {
+    sliced[i] = input[i];
+  }
+  return sliced;
+};
+
+
+/***/ }),
+/* 7 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bindInternal3 = __webpack_require__(0);
+
+/**
+ * # Filter
+ *
+ * A fast `.filter()` implementation.
+ *
+ * @param  {Array}    subject     The array (or array-like) to filter.
+ * @param  {Function} fn          The filter function.
+ * @param  {Object}   thisContext The context for the filter.
+ * @return {Array}                The array containing the results.
+ */
+module.exports = function fastFilter (subject, fn, thisContext) {
+  var length = subject.length,
+      result = [],
+      iterator = thisContext !== undefined ? bindInternal3(fn, thisContext) : fn,
+      i;
+  for (i = 0; i < length; i++) {
+    if (iterator(subject[i], i, subject)) {
+      result.push(subject[i]);
+    }
+  }
+  return result;
+};
+
+
+/***/ }),
+/* 8 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bindInternal3 = __webpack_require__(0);
+
+/**
+ * # For Each
+ *
+ * A fast `.forEach()` implementation.
+ *
+ * @param  {Array}    subject     The array (or array-like) to iterate over.
+ * @param  {Function} fn          The visitor function.
+ * @param  {Object}   thisContext The context for the visitor.
+ */
+module.exports = function fastForEach (subject, fn, thisContext) {
+  var length = subject.length,
+      iterator = thisContext !== undefined ? bindInternal3(fn, thisContext) : fn,
+      i;
+  for (i = 0; i < length; i++) {
+    iterator(subject[i], i, subject);
+  }
+};
+
+
+/***/ }),
+/* 9 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bindInternal3 = __webpack_require__(0);
+
+/**
+ * # Map
+ *
+ * A fast `.map()` implementation.
+ *
+ * @param  {Array}    subject     The array (or array-like) to map over.
+ * @param  {Function} fn          The mapper function.
+ * @param  {Object}   thisContext The context for the mapper.
+ * @return {Array}                The array containing the results.
+ */
+module.exports = function fastMap (subject, fn, thisContext) {
+  var length = subject.length,
+      result = new Array(length),
+      iterator = thisContext !== undefined ? bindInternal3(fn, thisContext) : fn,
+      i;
+  for (i = 0; i < length; i++) {
+    result[i] = iterator(subject[i], i, subject);
+  }
+  return result;
+};
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bindInternal4 = __webpack_require__(2);
+
+/**
+ * # Reduce
+ *
+ * A fast `.reduce()` implementation.
+ *
+ * @param  {Array}    subject      The array (or array-like) to reduce.
+ * @param  {Function} fn           The reducer function.
+ * @param  {mixed}    initialValue The initial value for the reducer, defaults to subject[0].
+ * @param  {Object}   thisContext  The context for the reducer.
+ * @return {mixed}                 The final result.
+ */
+module.exports = function fastReduce (subject, fn, initialValue, thisContext) {
+  var length = subject.length,
+      iterator = thisContext !== undefined ? bindInternal4(fn, thisContext) : fn,
+      i, result;
+
+  if (initialValue === undefined) {
+    i = 1;
+    result = subject[0];
+  }
+  else {
+    i = 0;
+    result = initialValue;
+  }
+
+  for (; i < length; i++) {
+    result = iterator(result, subject[i], i, subject);
+  }
+
+  return result;
+};
+
+
+/***/ }),
+/* 11 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bindInternal4 = __webpack_require__(2);
+
+/**
+ * # Reduce Right
+ *
+ * A fast `.reduceRight()` implementation.
+ *
+ * @param  {Array}    subject      The array (or array-like) to reduce.
+ * @param  {Function} fn           The reducer function.
+ * @param  {mixed}    initialValue The initial value for the reducer, defaults to subject[0].
+ * @param  {Object}   thisContext  The context for the reducer.
+ * @return {mixed}                 The final result.
+ */
+module.exports = function fastReduce (subject, fn, initialValue, thisContext) {
+  var length = subject.length,
+      iterator = thisContext !== undefined ? bindInternal4(fn, thisContext) : fn,
+      i, result;
+
+  if (initialValue === undefined) {
+    i = length - 2;
+    result = subject[length - 1];
+  }
+  else {
+    i = length - 1;
+    result = initialValue;
+  }
+
+  for (; i >= 0; i--) {
+    result = iterator(result, subject[i], i, subject);
+  }
+
+  return result;
+};
+
+
+/***/ }),
+/* 12 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Internal helper for applying a function without a context.
+ */
+module.exports = function applyNoContext (subject, args) {
+  switch (args.length) {
+    case 0:
+      return subject();
+    case 1:
+      return subject(args[0]);
+    case 2:
+      return subject(args[0], args[1]);
+    case 3:
+      return subject(args[0], args[1], args[2]);
+    case 4:
+      return subject(args[0], args[1], args[2], args[3]);
+    case 5:
+      return subject(args[0], args[1], args[2], args[3], args[4]);
+    case 6:
+      return subject(args[0], args[1], args[2], args[3], args[4], args[5]);
+    case 7:
+      return subject(args[0], args[1], args[2], args[3], args[4], args[5], args[6]);
+    case 8:
+      return subject(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
+    default:
+      return subject.apply(undefined, args);
+  }
+};
+
+
+/***/ }),
+/* 13 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * # Clone Object
+ *
+ * Shallow clone a simple object.
+ *
+ * > Note: Prototypes and non-enumerable properties will not be copied!
+ *
+ * @param  {Object} input The object to clone.
+ * @return {Object}       The cloned object.
+ */
+module.exports = function fastCloneObject (input) {
+  var keys = Object.keys(input),
+      total = keys.length,
+      cloned = {},
+      i, key;
+
+  for (i = 0; i < total; i++) {
+    key = keys[i];
+    cloned[key] = input[key];
+  }
+
+  return cloned;
+};
+
+
+/***/ }),
+/* 14 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bindInternal3 = __webpack_require__(0);
+
+/**
+ * # Filter
+ *
+ * A fast object `.filter()` implementation.
+ *
+ * @param  {Object}   subject     The object to filter.
+ * @param  {Function} fn          The filter function.
+ * @param  {Object}   thisContext The context for the filter.
+ * @return {Object}               The new object containing the filtered results.
+ */
+module.exports = function fastFilterObject (subject, fn, thisContext) {
+  var keys = Object.keys(subject),
+      length = keys.length,
+      result = {},
+      iterator = thisContext !== undefined ? bindInternal3(fn, thisContext) : fn,
+      i, key;
+  for (i = 0; i < length; i++) {
+    key = keys[i];
+    if (iterator(subject[key], key, subject)) {
+      result[key] = subject[key];
+    }
+  }
+  return result;
+};
+
+
+/***/ }),
+/* 15 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bindInternal3 = __webpack_require__(0);
+
+/**
+ * # For Each
+ *
+ * A fast object `.forEach()` implementation.
+ *
+ * @param  {Object}   subject     The object to iterate over.
+ * @param  {Function} fn          The visitor function.
+ * @param  {Object}   thisContext The context for the visitor.
+ */
+module.exports = function fastForEachObject (subject, fn, thisContext) {
+  var keys = Object.keys(subject),
+      length = keys.length,
+      iterator = thisContext !== undefined ? bindInternal3(fn, thisContext) : fn,
+      key, i;
+  for (i = 0; i < length; i++) {
+    key = keys[i];
+    iterator(subject[key], key, subject);
+  }
+};
+
+
+/***/ }),
+/* 16 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bindInternal3 = __webpack_require__(0);
+
+/**
+ * # Map
+ *
+ * A fast object `.map()` implementation.
+ *
+ * @param  {Object}   subject     The object to map over.
+ * @param  {Function} fn          The mapper function.
+ * @param  {Object}   thisContext The context for the mapper.
+ * @return {Object}               The new object containing the results.
+ */
+module.exports = function fastMapObject (subject, fn, thisContext) {
+  var keys = Object.keys(subject),
+      length = keys.length,
+      result = {},
+      iterator = thisContext !== undefined ? bindInternal3(fn, thisContext) : fn,
+      i, key;
+  for (i = 0; i < length; i++) {
+    key = keys[i];
+    result[key] = iterator(subject[key], key, subject);
+  }
+  return result;
+};
+
+
+/***/ }),
+/* 17 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bindInternal4 = __webpack_require__(2);
+
+/**
+ * # Reduce
+ *
+ * A fast object `.reduce()` implementation.
+ *
+ * @param  {Object}   subject      The object to reduce over.
+ * @param  {Function} fn           The reducer function.
+ * @param  {mixed}    initialValue The initial value for the reducer, defaults to subject[0].
+ * @param  {Object}   thisContext  The context for the reducer.
+ * @return {mixed}                 The final result.
+ */
+module.exports = function fastReduceObject (subject, fn, initialValue, thisContext) {
+  var keys = Object.keys(subject),
+      length = keys.length,
+      iterator = thisContext !== undefined ? bindInternal4(fn, thisContext) : fn,
+      i, key, result;
+
+  if (initialValue === undefined) {
+    i = 1;
+    result = subject[keys[0]];
+  }
+  else {
+    i = 0;
+    result = initialValue;
+  }
+
+  for (; i < length; i++) {
+    key = keys[i];
+    result = iterator(result, subject[key], key, subject);
+  }
+
+  return result;
+};
+
+
+/***/ }),
+/* 18 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+var bindInternal4 = __webpack_require__(2);
+
+/**
+ * # Reduce
+ *
+ * A fast object `.reduce()` implementation.
+ *
+ * @param  {Object}   subject      The object to reduce over.
+ * @param  {Function} fn           The reducer function.
+ * @param  {mixed}    initialValue The initial value for the reducer, defaults to subject[0].
+ * @param  {Object}   thisContext  The context for the reducer.
+ * @return {mixed}                 The final result.
+ */
+module.exports = function fastReduceRightObject (subject, fn, initialValue, thisContext) {
+  var keys = Object.keys(subject),
+      length = keys.length,
+      iterator = thisContext !== undefined ? bindInternal4(fn, thisContext) : fn,
+      i, key, result;
+
+  if (initialValue === undefined) {
+    i = length - 2;
+    result = subject[keys[length - 1]];
+  }
+  else {
+    i = length - 1;
+    result = initialValue;
+  }
+
+  for (; i >= 0; i--) {
+    key = keys[i];
+    result = iterator(result, subject[key], key, subject);
+  }
+
+  return result;
+};
+
+
+/***/ }),
 /* 19 */
 /***/ (function(module, exports, __webpack_require__) {
 
@@ -1211,7 +1210,8 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(20));
-__export(__webpack_require__(3));
+__export(__webpack_require__(1));
+// Testing...
 
 
 /***/ }),
@@ -1225,8 +1225,8 @@ function __export(m) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 __export(__webpack_require__(21));
+__export(__webpack_require__(51));
 __export(__webpack_require__(52));
-__export(__webpack_require__(53));
 
 
 /***/ }),
@@ -1236,17 +1236,45 @@ __export(__webpack_require__(53));
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const common_1 = __webpack_require__(3);
-const eventemitter3_1 = __webpack_require__(18);
+const common_1 = __webpack_require__(1);
+const eventemitter3_1 = __webpack_require__(5);
 const fast = __webpack_require__(4);
+/**
+ * The ComponentCollection class provides an interface for managing our components. It's purpose is to track multiple
+ * caches of components and to expose public methods for retrieving or manipulating those components. By default, the
+ * ComponentCollection maintains the following caches:
+ *
+ * 1. allComponents: Array[] = This is simply an array containing all components in this collection
+ * 2. componentsByType: Map<string, IComponent> = This is a Map storing an array of IComponents with the key being the common 'type' for that component.
+ * 3. componentsByTag: Map<string, IComponent> = This is a Map storing an array of IComponents with the key being a property on the component called "tag".
+ *
+ * By breaking down our cache into multiple list, we gain a slight performance boost when doing reads when our component collection has _many_
+ * components.
+ */
 class ComponentCollection extends eventemitter3_1.EventEmitter {
     constructor() {
         super();
+        /**
+         * Private cache of all components
+         */
         this._allComponents = [];
+        /**
+         * Private cache of all components sorted by their type
+         */
         this._componentsByType = new Map();
+        /**
+         * Private cache of all components sorted by their tag
+         */
         this._componentsByTag = new Map();
+        /**
+         * The total amount of components that exist in this collection.
+         */
         this._count = 0;
     }
+    /**
+     * Called when you want to add a new component to the ComponentCollection
+     * @param components A single or multple components you wish to add.
+     */
     add(...components) {
         fast.forEach(components, (component) => {
             // Add to all component list
@@ -1280,6 +1308,11 @@ class ComponentCollection extends eventemitter3_1.EventEmitter {
             this.emit(common_1.ComponentCollectionEvents.COMPONENT_ADDED, component);
         }, null);
     }
+    /**
+     * Used to remove a component from the component collection. Note, this can be slow so it is suggested you use it sparingly.
+     * Instead, build in an 'active' state into your components and have your systems respect it.
+     * @param component The component to remove
+     */
     remove(component) {
         // Get the component 'type' and the typeList, if possible
         let type = common_1.Utils.getComponentType(component);
@@ -1298,35 +1331,80 @@ class ComponentCollection extends eventemitter3_1.EventEmitter {
             common_1.Utils.cleanCache(tagList, component);
         }
         this._count--;
+        if (component["destroy"]) {
+            component.destroy();
+        }
         this.emit(common_1.ComponentCollectionEvents.COMPONENT_REMOVED, component);
     }
+    /**
+     * Returns _all_ components currently in the component collection
+     */
     getAll() {
         return this._allComponents;
     }
+    /**
+     * Returns an array of components of the given type.
+     * @param {IComponent<T>} component
+     * @returns {IComponent<T>[] | any | null}
+     */
     getByType(component) {
         return this._componentsByType.get(common_1.Utils.getConstructorType(component));
     }
+    /**
+     * Returns the _first_ element in an array by the given type.
+     * @param {IComponent<T>} component
+     * @returns {IComponent<T> | null}
+     */
     getFirstByType(component) {
         let typeList = this._componentsByType.get(common_1.Utils.getConstructorType(component));
         return (typeList && typeList.length >= 0) ? typeList[0] : null;
     }
+    /**
+     * Return an array of components by the provided tag
+     * @param {string} tag
+     * @returns {IComponent<any>[] | null}
+     */
     getByTag(tag) {
         return this._componentsByTag.get(tag);
     }
+    /**
+     * Returns the first element in an array by the provided tag
+     * @param {string} tag
+     * @returns {IComponent<any> | null}
+     */
     getFirstByTag(tag) {
         let tagList = this._componentsByTag.get(tag);
         return (tagList && tagList.length >= 0) ? tagList[0] : null;
     }
+    /**
+     * Returns an array of components matching the provided type.
+     * @param {IComponent<T>} component
+     * @returns {IComponent<T>[] | null}
+     */
     contains(component) {
         return this._componentsByType.get(common_1.Utils.getConstructorType(component));
     }
+    /**
+     * Returns the total amount of components in the collection
+     * @returns {number}
+     */
+    getCount() {
+        return this._count;
+    }
+    /**
+     * When you want to clean-up a collection, invoke this method. This will clean all caches
+     */
     destroy() {
+        // The reason we iterate through all components is because the remove() method calls the destroy() method on a
+        // component, if it exists. This way, you can set-up clean-up code specific to the component.
         fast.forEach(this._allComponents, (component) => {
             this.remove(component);
         }, null);
-        this._allComponents = [];
+        this._allComponents = null;
         this._componentsByType.clear();
         this._componentsByTag.clear();
+        this._componentsByType = null;
+        this._componentsByTag = null;
     }
 }
 exports.ComponentCollection = ComponentCollection;
@@ -1339,6 +1417,12 @@ exports.ComponentCollection = ComponentCollection;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * These are the events that the ComponentCollection emits.
+ *
+ * 1. componentAdded = Emitted when a new component has been added. It has one argument, which is the new components.
+ * 2. componentRemoved = Emitted when a component has been removed. It has one argument, which is the component removed.
+ */
 var ComponentCollectionEvents;
 (function (ComponentCollectionEvents) {
     ComponentCollectionEvents["COMPONENT_ADDED"] = "componentAdded";
@@ -1353,20 +1437,12 @@ var ComponentCollectionEvents;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-var SYSTEM_COLLECTION_EVENTS;
-(function (SYSTEM_COLLECTION_EVENTS) {
-    SYSTEM_COLLECTION_EVENTS["ENABLE"] = "enable";
-    SYSTEM_COLLECTION_EVENTS["DISABLE"] = "disable";
-})(SYSTEM_COLLECTION_EVENTS = exports.SYSTEM_COLLECTION_EVENTS || (exports.SYSTEM_COLLECTION_EVENTS = {}));
-
-
-/***/ }),
-/* 24 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
+/**
+ * This are events that the EntityCollection class emits
+ *
+ * 1. entityAdded = Emitted when a new entity has been added. It has one argument, which is the new entity
+ * 2. entityRemoved = Emitted when an entity has been removed. It has one argument, which is the entity removed.
+ */
 var EntityCollectionEvents;
 (function (EntityCollectionEvents) {
     EntityCollectionEvents["ENTITY_ADDED"] = "entityAdded";
@@ -1375,7 +1451,7 @@ var EntityCollectionEvents;
 
 
 /***/ }),
-/* 25 */
+/* 24 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1419,33 +1495,38 @@ class Utils {
             Utils.fastSplice(list, idxMatch, 1);
         }
     }
+    static flatten(arr) {
+        return arr.reduce((flat, toFlatten) => {
+            return flat.concat(Array.isArray(toFlatten) ? Utils.flatten(toFlatten) : toFlatten);
+        }, []);
+    }
 }
 exports.Utils = Utils;
 
 
 /***/ }),
-/* 26 */
+/* 25 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.clone = __webpack_require__(5);
-exports.concat = __webpack_require__(27);
-exports.every = __webpack_require__(28);
-exports.filter = __webpack_require__(6);
-exports.forEach = __webpack_require__(7);
-exports.indexOf = __webpack_require__(29);
-exports.lastIndexOf = __webpack_require__(30);
-exports.map = __webpack_require__(8);
-exports.pluck = __webpack_require__(31);
-exports.reduce = __webpack_require__(9);
-exports.reduceRight = __webpack_require__(10);
-exports.some = __webpack_require__(32);
-exports.fill = __webpack_require__(33);
+exports.clone = __webpack_require__(6);
+exports.concat = __webpack_require__(26);
+exports.every = __webpack_require__(27);
+exports.filter = __webpack_require__(7);
+exports.forEach = __webpack_require__(8);
+exports.indexOf = __webpack_require__(28);
+exports.lastIndexOf = __webpack_require__(29);
+exports.map = __webpack_require__(9);
+exports.pluck = __webpack_require__(30);
+exports.reduce = __webpack_require__(10);
+exports.reduceRight = __webpack_require__(11);
+exports.some = __webpack_require__(31);
+exports.fill = __webpack_require__(32);
 
 /***/ }),
-/* 27 */
+/* 26 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1484,7 +1565,7 @@ module.exports = function fastConcat () {
 
 
 /***/ }),
-/* 28 */
+/* 27 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1516,7 +1597,7 @@ module.exports = function fastEvery (subject, fn, thisContext) {
 
 
 /***/ }),
-/* 29 */
+/* 28 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1556,7 +1637,7 @@ module.exports = function fastIndexOf (subject, target, fromIndex) {
 
 
 /***/ }),
-/* 30 */
+/* 29 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1592,7 +1673,7 @@ module.exports = function fastLastIndexOf (subject, target, fromIndex) {
 
 
 /***/ }),
-/* 31 */
+/* 30 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1622,7 +1703,7 @@ module.exports = function fastPluck (input, field) {
 };
 
 /***/ }),
-/* 32 */
+/* 31 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1654,7 +1735,7 @@ module.exports = function fastSome (subject, fn, thisContext) {
 
 
 /***/ }),
-/* 33 */
+/* 32 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1689,28 +1770,28 @@ module.exports = function fastFill (subject, value, start, end) {
 };
 
 /***/ }),
+/* 33 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+exports.apply = __webpack_require__(34);
+exports.bind = __webpack_require__(35);
+exports.partial = __webpack_require__(36);
+exports.partialConstructor = __webpack_require__(37);
+exports.try = __webpack_require__(38);
+
+
+/***/ }),
 /* 34 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.apply = __webpack_require__(35);
-exports.bind = __webpack_require__(36);
-exports.partial = __webpack_require__(37);
-exports.partialConstructor = __webpack_require__(38);
-exports.try = __webpack_require__(39);
-
-
-/***/ }),
-/* 35 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-var applyWithContext = __webpack_require__(2);
-var applyNoContext = __webpack_require__(11);
+var applyWithContext = __webpack_require__(3);
+var applyNoContext = __webpack_require__(12);
 
 /**
  * # Apply
@@ -1729,14 +1810,14 @@ module.exports = function fastApply (subject, thisContext, args) {
 
 
 /***/ }),
-/* 36 */
+/* 35 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var applyWithContext = __webpack_require__(2);
-var applyNoContext = __webpack_require__(11);
+var applyWithContext = __webpack_require__(3);
+var applyNoContext = __webpack_require__(12);
 
 /**
  * # Bind
@@ -1807,13 +1888,13 @@ module.exports = function fastBind (fn, thisContext) {
 
 
 /***/ }),
-/* 37 */
+/* 36 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var applyWithContext = __webpack_require__(2);
+var applyWithContext = __webpack_require__(3);
 
 /**
  * # Partial Application
@@ -1856,13 +1937,13 @@ module.exports = function fastPartial (fn) {
 
 
 /***/ }),
-/* 38 */
+/* 37 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var applyWithContext = __webpack_require__(2);
+var applyWithContext = __webpack_require__(3);
 
 /**
  * # Partial Constructor
@@ -1908,7 +1989,7 @@ module.exports = function fastPartialConstructor (fn) {
 
 
 /***/ }),
-/* 39 */
+/* 38 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -1950,24 +2031,24 @@ module.exports = function fastTry (fn) {
 
 
 /***/ }),
-/* 40 */
+/* 39 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.assign = __webpack_require__(41);
-exports.clone = __webpack_require__(12);
-exports.filter = __webpack_require__(13);
-exports.forEach = __webpack_require__(14);
-exports.map = __webpack_require__(15);
-exports.reduce = __webpack_require__(16);
-exports.reduceRight = __webpack_require__(17);
-exports.keys = __webpack_require__(42);
-exports.values = __webpack_require__(43);
+exports.assign = __webpack_require__(40);
+exports.clone = __webpack_require__(13);
+exports.filter = __webpack_require__(14);
+exports.forEach = __webpack_require__(15);
+exports.map = __webpack_require__(16);
+exports.reduce = __webpack_require__(17);
+exports.reduceRight = __webpack_require__(18);
+exports.keys = __webpack_require__(41);
+exports.values = __webpack_require__(42);
 
 /***/ }),
-/* 41 */
+/* 40 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2008,7 +2089,7 @@ module.exports = function fastAssign (target) {
 
 
 /***/ }),
-/* 42 */
+/* 41 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2031,7 +2112,7 @@ module.exports = typeof Object.keys === "function" ? Object.keys : /* istanbul i
 };
 
 /***/ }),
-/* 43 */
+/* 42 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2057,16 +2138,16 @@ module.exports = function fastValues (obj) {
 };
 
 /***/ }),
-/* 44 */
+/* 43 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-exports.intern = __webpack_require__(45);
+exports.intern = __webpack_require__(44);
 
 /***/ }),
-/* 45 */
+/* 44 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2128,14 +2209,14 @@ module.exports = function fastIntern (string) {
 };
 
 /***/ }),
-/* 46 */
+/* 45 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var cloneArray = __webpack_require__(5);
-var cloneObject = __webpack_require__(12);
+var cloneArray = __webpack_require__(6);
+var cloneObject = __webpack_require__(13);
 
 /**
  * # Clone
@@ -2162,14 +2243,14 @@ module.exports = function clone (input) {
 
 
 /***/ }),
-/* 47 */
+/* 46 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var mapArray = __webpack_require__(8),
-    mapObject = __webpack_require__(15);
+var mapArray = __webpack_require__(9),
+    mapObject = __webpack_require__(16);
 
 /**
  * # Map
@@ -2191,14 +2272,14 @@ module.exports = function fastMap (subject, fn, thisContext) {
 };
 
 /***/ }),
-/* 48 */
+/* 47 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var filterArray = __webpack_require__(6),
-    filterObject = __webpack_require__(13);
+var filterArray = __webpack_require__(7),
+    filterObject = __webpack_require__(14);
 
 /**
  * # Filter
@@ -2220,14 +2301,14 @@ module.exports = function fastFilter (subject, fn, thisContext) {
 };
 
 /***/ }),
-/* 49 */
+/* 48 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var forEachArray = __webpack_require__(7),
-    forEachObject = __webpack_require__(14);
+var forEachArray = __webpack_require__(8),
+    forEachObject = __webpack_require__(15);
 
 /**
  * # ForEach
@@ -2248,14 +2329,14 @@ module.exports = function fastForEach (subject, fn, thisContext) {
 };
 
 /***/ }),
-/* 50 */
+/* 49 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var reduceArray = __webpack_require__(9),
-    reduceObject = __webpack_require__(16);
+var reduceArray = __webpack_require__(10),
+    reduceObject = __webpack_require__(17);
 
 /**
  * # Reduce
@@ -2278,14 +2359,14 @@ module.exports = function fastReduce (subject, fn, initialValue, thisContext) {
 };
 
 /***/ }),
-/* 51 */
+/* 50 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 
-var reduceRightArray = __webpack_require__(10),
-    reduceRightObject = __webpack_require__(17);
+var reduceRightArray = __webpack_require__(11),
+    reduceRightObject = __webpack_require__(18);
 
 /**
  * # Reduce Right
@@ -2308,23 +2389,45 @@ module.exports = function fastReduceRight (subject, fn, initialValue, thisContex
 };
 
 /***/ }),
-/* 52 */
+/* 51 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-const common_1 = __webpack_require__(3);
-const eventemitter3_1 = __webpack_require__(18);
+const common_1 = __webpack_require__(1);
+const eventemitter3_1 = __webpack_require__(5);
 const fast = __webpack_require__(4);
+/**
+ * The EntityCollection class is responsible for managing our entities. In this implementation, the EntityCollection considers
+ * any entity that has a "components" key with the ComponentCollection type to be valid.
+ */
 class EntityCollection extends eventemitter3_1.EventEmitter {
     constructor() {
         super();
+        /**
+         * Contains all of our currently tracked entities.
+         * @type {any[]}
+         */
         this.entities = [];
+        /**
+         * Contains all entities which have been tagged (They have a property called "tag" with string type)
+         * @type {Map<any, any>}
+         * @private
+         */
         this._entitiesByTag = new Map();
+        /**
+         * The total number of entities currently in this collection.
+         * @type {number}
+         * @private
+         */
         this._count = 0;
     }
     ;
+    /**
+     * Adds a new entity (Or entities) to the cache for tracking. When added, the EntityCollection will sort the entity appropriately.
+     * @param {IEntity} entities
+     */
     add(...entities) {
         fast.forEach(entities, (entity) => {
             this.entities.push(entity);
@@ -2335,13 +2438,17 @@ class EntityCollection extends eventemitter3_1.EventEmitter {
                     tagList.push(entity);
                 }
                 else {
-                    this._entitiesByTag.set(common_1.Utils.getComponentType(entity), [entity]);
+                    this._entitiesByTag.set(tag, [entity]);
                 }
             }
             this.emit(common_1.EntityCollectionEvents.ENTITY_ADDED, entity);
             this._count++;
         }, null);
     }
+    /**
+     * Called to remove an entity from the EntityCollection. This will also call the "destroy()" method on the ComponentCollection
+     * @param {IEntity} entity
+     */
     remove(entity) {
         // Clean the main entity cache
         common_1.Utils.cleanCache(this.entities, entity);
@@ -2355,41 +2462,128 @@ class EntityCollection extends eventemitter3_1.EventEmitter {
         this._count--;
         this.emit(common_1.EntityCollectionEvents.ENTITY_REMOVED, entity);
     }
+    /**
+     * Returns an array of all tracked entities
+     * @returns {IEntity[]}
+     */
     getAll() {
         return this.entities;
     }
+    /**
+     * Returns an array of entities which matches the provided tag
+     * @param {string} tag
+     * @returns {IEntity[] | null}
+     */
     getByTag(tag) {
         return this._entitiesByTag.get(tag);
     }
+    /**
+     * Returns the first entity in an array which matches the provided tag
+     * @param {string} tag
+     * @returns {IEntity | null}
+     */
     getFirstByTag(tag) {
         let tagList = this._entitiesByTag.get(tag);
         return (tagList && tagList.length >= 0) ? tagList[0] : null;
     }
+    /**
+     * Returns an array of entities which contains the component of type <T>
+     * @param component
+     * @returns {IEntity[]}
+     */
     getByComponent(component) {
-        return this.entities.filter(entity => entity.components.contains(component));
+        return fast.filter(this.entities, (entity => entity.components.contains(component)));
     }
+    /**
+     * Returns a flattened array of _all_ components matching type <T> This method is useful when you are working with
+     * systems. Instead of traversing with nested lists to find the components you want, you can invoke this and receive
+     * a list of components that match the type you are seeking.
+     * @param component
+     * @returns {IComponent<any>[]}
+     */
+    getAllComponentsWithType(component) {
+        let componentMap = fast.map(this.entities, (entity) => {
+            return entity.components.contains(component);
+        });
+        return common_1.Utils.flatten(componentMap);
+    }
+    /**
+     * Returns the total amount of entities in this collection.
+     * @returns {number}
+     */
+    getCount() {
+        return this._count;
+    }
+    /**
+     * When invoked, this will call `EntityCollection.remove()` on each entity
+     */
     destroy() {
-        // Iterate through all entities and remove them. This also calls the .destroy() function on each component.
+        // Iterate through all entities and remove them. This also calls the .destroy() function for each ComponentCollection.
         fast.forEach(this.entities, (entity) => {
             this.remove(entity);
         }, null);
-        this.entities = [];
+        this.entities = null;
         this._entitiesByTag.clear();
+        this._entitiesByTag = null;
     }
 }
 exports.EntityCollection = EntityCollection;
 
 
 /***/ }),
-/* 53 */
+/* 52 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-class SystemCollection {
+const common_1 = __webpack_require__(1);
+const eventemitter3_1 = __webpack_require__(5);
+/**
+ * The AbstractSystem class is a _mostly_ stubbed out class to provide a simple foundation for building out your systems.
+ * The default behaviour of this abstract class is to accept an EntityCollection as the first parameter in the constructor
+ * and then setup event listeners for the ENTITY_ADDED and ENTITY_REMOVED events. From there, it calls out stubbed functions
+ * depending on the event received: onEntityAdded for when an entity is added and onEntityRemoved for when an entity is removed.
+ * Further, the destroy() method in the AbstractSystem is used to clean-up the registered listeners on the EntityCollection.
+ *
+ * The AbstractSystem is intentionally bare, since the logic for your systems will be dependent on both your game and the function
+ * of the system.
+ */
+class AbstractSystem extends eventemitter3_1.EventEmitter {
+    constructor(entities) {
+        super();
+        /**
+         * STUBBED: Extend this method with your logic for when new entities are added to the collection
+         * @param {IEntity} entity The new entity that was added to the collection.
+         */
+        this.onEntityAdded = (entity) => { };
+        /**
+         * STUBBED: Extend this method with your logic for when an entity has been removed from the collection
+         * @param {IEntity} entity The entity that has been removed from the collection.
+         */
+        this.onEntityRemoved = (entity) => { };
+        this._collection = entities;
+        this._collection.on(common_1.EntityCollectionEvents.ENTITY_ADDED, this.onEntityAdded);
+        this._collection.on(common_1.EntityCollectionEvents.ENTITY_REMOVED, this.onEntityRemoved);
+    }
+    /**
+     * STUBBED: Call this method when you need to update the system or the components this system is responsible for.
+     * Example usage: Call your MySystem.update(delta) in your main loop, then have your MySystem call Component<T>.update(delta)
+     * on each component.
+     * @param {number} delta Optional: The delay from last frame to current frame.
+     */
+    update(delta) { }
+    ;
+    /**
+     * STUBBED: Call this to clean up event listeners.
+     */
+    destroy() {
+        this._collection.off(common_1.EntityCollectionEvents.ENTITY_ADDED, this.onEntityAdded);
+        this._collection.off(common_1.EntityCollectionEvents.ENTITY_REMOVED, this.onEntityRemoved);
+    }
+    ;
 }
-exports.SystemCollection = SystemCollection;
+exports.AbstractSystem = AbstractSystem;
 
 
 /***/ })
