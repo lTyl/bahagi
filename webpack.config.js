@@ -4,7 +4,7 @@ const destPath = path.join(__dirname, './dist');
 module.exports = {
 	entry: './src/index.ts',
 	output: {
-		filename: 'bahagi.js',
+		filename: 'index.js',
 		path: destPath
 	},
 	module: {
