@@ -1,6 +1,6 @@
 {
   "name": "bahagi",
-  "version": "0.3.1",
+  "version": "0.3.2",
   "description": "A type-based Entity Component System. Implemented in TypeScript",
   "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
