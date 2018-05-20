@@ -2,7 +2,7 @@
   "name": "bahagi",
   "version": "0.3.0",
   "description": "A type-based Entity Component System. Implemented in TypeScript",
-  "main": "./dist/bahagi.js",
+  "main": "./dist/index.js",
   "types": "./dist/index.d.ts",
   "scripts": {
     "build": "node node_modules/typescript/bin/tsc --p tsconfig.json",
