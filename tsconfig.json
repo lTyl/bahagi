@@ -16,7 +16,7 @@
 	},
 	"include": [
 		"node_modules/@types",
-		"./app/**/*.ts",
-		"./app/declarations/*.*"
+		"./src/**/*.ts",
+		"./src/declarations/*.*"
 	]
 }
