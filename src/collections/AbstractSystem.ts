@@ -15,7 +15,7 @@ export abstract class AbstractSystem extends EventEmitter {
 	/**
 	 * Stores the EntityCollection this system is watching.
 	 */
-	private _collection: EntityCollection;
+	protected _collection: EntityCollection;
 	constructor(entities: EntityCollection){
 		super();
 		this._collection = entities;
