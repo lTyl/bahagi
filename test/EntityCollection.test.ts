@@ -97,4 +97,16 @@ describe('EntityCollection tests', () => {
 		expect(collection.getAllComponentsWithType<Number>(Number)).length(2);
 	});
 
+	it('should add an entity and retrieve it based on the instance' , () => {
+		let myEntity = {
+			components: new ComponentCollection()
+		};
+		let collection = new EntityCollection();
+
+		collection.add(myEntity);
+
+		expect(collection.getByInstance(myEntity)).to.equal(myEntity);
+	});
+
+
 });

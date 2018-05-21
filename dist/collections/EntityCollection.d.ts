@@ -45,6 +45,12 @@ export declare class EntityCollection extends EventEmitter {
      */
     getByTag(tag: string): IEntity[] | null;
     /**
+     * Returns the entity that matches the provided entity instance. Uses lazy match.
+     * @param instance The instance of the entity to find
+     * @returns {any}
+     */
+    getByInstance(instance: any): any;
+    /**
      * Returns the first entity in an array which matches the provided tag
      * @param {string} tag
      * @returns {IEntity | null}

@@ -83,6 +83,19 @@ class EntityCollection extends eventemitter3_1.EventEmitter {
         return this._entitiesByTag.get(tag);
     }
     /**
+     * Returns the entity that matches the provided entity instance. Uses lazy match.
+     * @param instance The instance of the entity to find
+     * @returns {any}
+     */
+    getByInstance(instance) {
+        for (let i = 0; i < this.entities.length; i++) {
+            if (this.entities[i] === instance) {
+                return this.entities[i];
+            }
+        }
+        return null;
+    }
+    /**
      * Returns the first entity in an array which matches the provided tag
      * @param {string} tag
      * @returns {IEntity | null}
