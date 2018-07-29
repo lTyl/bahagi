@@ -3,8 +3,8 @@
  */
 export interface IComponent<T> {
 	new (...args: any[]): T;
-	active?: boolean;
-	tag?: string;
-	update?: void;
-	destroy?: void;
+	active?: any;
+	tag?: any;
+	update?: any;
+	destroy?: any;
 }
